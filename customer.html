@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Food App</title>
+
+  <!-- ✅ Correct CSS link -->
+  <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body>
+
+<div class="navbar">
+  <h2>🍔 Food App</h2>
+  <div onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</div>
+</div>
+
+<div id="products" class="grid"></div>
+
+<!-- CART -->
+<div id="cart-panel" class="cart-panel">
+  <h3>Cart</h3>
+  <div id="cart-items"></div>
+  <h3>Total ₹<span id="total">0</span></h3>
+  <button onclick="checkout()">Checkout</button>
+</div>
+
+<!-- ✅ Correct JS link -->
+<script src="js/customer.js"></script>
+
+</body>
+</html>

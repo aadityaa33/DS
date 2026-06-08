@@ -1,0 +1,60 @@
+const BASE = "http://127.0.0.1:8000";
+
+// ✅ LOAD DELIVERY JOBS
+function loadJobs() {
+  fetch(BASE + "/delivery/jobs")
+    .then(res => res.json())
+    .then(data => displayJobs(data));
+}
+
+// ✅ DISPLAY JOBS
+function displayJobs(data) {
+  const container = document.getElementById("jobs");
+  container.innerHTML = "";
+
+  data.forEach(job => {
+    container.innerHTML += `
+      <div class="card">
+        <h3>Order #${job.order_id}</h3>
+        <p>Status: ${job.status}</p>
+
+        <button class="accept" onclick="acceptJob(${job.id})">Accept</button>
+        <button class="pick" onclick="pickedUp(${job.id})">Picked Up</button>
+        <button class="deliver" onclick="delivered(${job.id})">Delivered</button>
+      </div>
+    `;
+  });
+}
+
+// ✅ ACCEPT JOB
+function acceptJob(id) {
+  fetch(`${BASE}/delivery/${id}/accept`, {
+    method: "POST"
+  }).then(() => {
+    alert("Job Accepted ✅");
+    loadJobs();
+  });
+}
+
+// ✅ PICKED UP
+function pickedUp(id) {
+  fetch(`${BASE}/delivery/${id}/picked-up`, {
+    method: "POST"
+  }).then(() => {
+    alert("Picked Up ✅");
+    loadJobs();
+  });
+}
+
+// ✅ DELIVERED
+function delivered(id) {
+  fetch(`${BASE}/delivery/${id}/delivered`, {
+    method: "POST"
+  }).then(() => {
+    alert("Delivered ✅");
+    loadJobs();
+  });
+}
+
+// AUTO LOAD
+loadJobs();

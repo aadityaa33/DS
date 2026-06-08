@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  css/main.css
+
+  <style>
+    .timeline {
+      max-width: 600px;
+      margin: 40px auto;
+    }
+
+    .step {
+      padding: 15px;
+      background: white;
+      margin: 10px 0;
+      border-left: 5px solid gray;
+    }
+
+    .active {
+      border-left: 5px solid green;
+      background: #e6ffe6;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 style="text-align:center;">Order Tracking</h2>
+
+<div class="timeline">
+
+  <div id="PLACED" class="step">Order Placed ✅</div>
+  <div id="ACCEPTED" class="step">Accepted by Vendor</div>
+  <div id="PREPARING" class="step">Preparing Food</div>
+  <div id="READY" class="step">Ready for Pickup</div>
+  <div id="PICKED_UP" class="step">Picked Up by Delivery</div>
+  <div id="DELIVERED" class="step">Delivered ✅</div>
+
+</div>
+
+script>
+// ✅ GET ORDER ID FROM URL
+const orderId = new URLSearchParams(window.location.search).get("id");
+
+// ✅ UPDATE STATUS FUNCTION
+function updateStatus() {
+
+  fetch(`http://127.0.0.1:8000/orders/${orderId}/status`)
+    .then(res => res.json())
+    .then(data => highlight(data.status));
+
+}
+
+// ✅ HIGHLIGHT STEPS
+function highlight(status) {
+
+  const steps = [
+    "PLACED",
+    "ACCEPTED",
+    "PREPARING",
+    "READY",
+    "PICKED_UP",
+    "DELIVERED"
+  ];
+
+  steps.forEach(s => {
+    const el = document.getElementById(s);
+    if (el) el.classList.remove("active");
+  });
+
+  // ✅ Activate all steps till current
+  let activate = true;
+
+  steps.forEach(s => {
+    if (activate) {
+      document.getElementById(s).classList.add("active");
+    }
+    if (s === status) activate = false;
+  });
+}
+
+// ✅ AUTO REFRESH (LIVE EFFECT)
+setInterval(updateStatus, 3000);
+
+updateStatus();
+
+</script>
+
+</body>
+</html>

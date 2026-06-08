@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body><body>
+  const id = new URLSearchParams(window.location.search).get("id");
+
+  fetch(`http://127.0.0.1:8000/orders/${id}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("details").innerHTML = `
+        <h3>Status: ${data.status}</h3>
+      `;
+    });
+</script>
+
+</body>
+</html>
+
+<h2>Order Details</h2>
+
+<div id="details"></div>
+
